@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Brewery Details</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <style>
+      /* Custom CSS styles */
+      .brewery-details {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        font-size: 14px; /* Reduce the font size */
+      }
+
+      .brewery-details .list-group-item {
+        padding: 5px 10px; /* Reduce padding to decrease spacing */
+      }
+      .reviews-section {
+        background-color: #f8f9fa;
+        border: 1px solid #ccc;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+      }
+
+      .reviews-section h3 {
+        font-size: 18px; /* Reduce heading size */
+      }
+
+      .reviews-section ul {
+        list-style-type: none;
+        padding-left: 0;
+      }
+
+      .reviews-section li {
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .reviews-section form {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="{% url 'home' %}">Brewery Details</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'home' %}"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'home' %}"
+              >Go Back <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="row">
+        <!-- Left Column: Brewery Details -->
+        <div class="col-md-6">
+          <div class="brewery-details">
+            <h4 class="mt-4">Brewery Details:</h4>
+            {% if brewery %}
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Name : {{ brewery.name }}</li>
+              <li class="list-group-item">City : {{ brewery.city }}</li>
+              <li class="list-group-item">Type : {{ brewery.brewery_type }}</li>
+              <li class="list-group-item">
+                Address 1 : {{ brewery.address_1 }}
+              </li>
+              <li class="list-group-item">
+                Address 2 : {{ brewery.address_2 }}
+              </li>
+              <li class="list-group-item">
+                Address 3 : {{ brewery.address_3 }}
+              </li>
+              <li class="list-group-item">
+                State_Province : {{ brewery.state_province }}
+              </li>
+              <li class="list-group-item">
+                Postal Code : {{ brewery.postal_code }}
+              </li>
+              <li class="list-group-item">Country : {{ brewery.country }}</li>
+              <li class="list-group-item">
+                Longitude : {{ brewery.longitude }}
+              </li>
+              <li class="list-group-item">Latitude : {{ brewery.latitude }}</li>
+              <li class="list-group-item">Phone No. : {{ brewery.phone }}</li>
+              <li class="list-group-item">State : {{ brewery.state }}</li>
+              <li class="list-group-item">Street : {{ brewery.street }}</li>
+              <li class="list-group-item">
+                Website : {{ brewery.website_url }}
+              </li>
+            </ul>
+            {% else %}
+            <p>Brewery not found.</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Right Column: Reviews -->
+        <div class="col-md-6">
+          <div class="reviews-section">
+            <h4 class="mt-4">Reviews:</h4>
+            <ul>
+              {% for review in reviews %}
+              <li>
+                <div class="review-item">
+                  <strong>Rating:</strong> {{ review.rating }}<br />
+                  <strong>Description:</strong> {{ review.description }}<br />
+                  <small>{{ review.created_at }}</small>
+                </div>
+              </li>
+              {% empty %}
+              <p>No reviews yet.</p>
+              {% endfor %}
+            </ul>
+
+            <h3 class="mt-4">Add a Review:</h3>
+            <form method="post">
+              {% csrf_token %} {{ form.as_p }}
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  </body>
+</html>
